@@ -1,4 +1,5 @@
 package com.stroev.storage;
+import com.stroev.exception.NotExistStorageException;
 import com.stroev.model.Resume;
 import java.util.Arrays;
 import java.util.Objects;
@@ -13,7 +14,7 @@ public abstract class AbstractArrayStorage {
         if (index !=-1) {
             return storage[index];
         }
-        return null;
+        throw new NotExistStorageException(uuid);
     }
     public Resume[] getAll() {
         Resume[] all_res=new Resume[id];

@@ -1,12 +1,21 @@
 package com.stroev.model;
 
+import java.util.UUID;
+
 /**
  * Initial resume class
+ * TO DO r.ToString
  */
 public class Resume implements Comparable<Resume>{
-    // я не менял хэш-код
-    // Unique identifier
-    private String uuid;
+    private final String uuid;
+
+    public Resume(String uuid) {
+        this.uuid = uuid;
+    }
+
+    public Resume() {
+        this(UUID.randomUUID().toString());
+    }
 
     @Override
     public String toString() {
@@ -17,15 +26,13 @@ public class Resume implements Comparable<Resume>{
         return uuid;
     }
 
-    public void setUuid(String uuid) {
-        this.uuid = uuid;
-    }
-
+    //забыл как это работает
     @Override
     public int compareTo(Resume o) {
         return uuid.compareTo(o.uuid);
     }
 
+    @Override
     public boolean equals(Object o){
         if(this==o) return true;
         if (o==null || this.getClass()!=o.getClass()) return false;
@@ -33,5 +40,10 @@ public class Resume implements Comparable<Resume>{
         Resume resume=(Resume)o;
 
         return uuid.equals(resume.uuid);
+    }
+
+    @Override
+    public int hashCode(){
+        return uuid.hashCode();
     }
 }
