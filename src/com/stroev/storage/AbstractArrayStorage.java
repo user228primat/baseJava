@@ -1,11 +1,13 @@
 package com.stroev.storage;
+import com.stroev.exception.ExistStorageException;
 import com.stroev.exception.NotExistStorageException;
+import com.stroev.exception.StorageException;
 import com.stroev.model.Resume;
 import java.util.Arrays;
 import java.util.Objects;
 
 public abstract class AbstractArrayStorage {
-    private final int Limit = 10000;
+    protected static final int Limit = 10000;
     protected Resume[] storage = new Resume[Limit];
     protected int id=0;
 
@@ -31,14 +33,17 @@ public abstract class AbstractArrayStorage {
         int index = getIndex(r.getUuid());
         if(index>=0){
             storage[index]=r;
+        }else{
+            throw new NotExistStorageException(r.getUuid());
         }
     }
+
     public void save(Resume r){
         // еще есть место в массиве и такого эллемента нет
         if ( getIndex(r.getUuid()) >= 0 ){
-            System.out.println("Element exists");
+            throw new ExistStorageException(r.getUuid());
         }else if (id==Limit){
-            System.out.println("Limit exceeded");
+            throw new StorageException("Stack Overflow",r.getUuid());
         }else {
             save_implementation(r);
             id++;
@@ -47,7 +52,7 @@ public abstract class AbstractArrayStorage {
     public void delete(String uuid) {
         int index=getIndex(uuid);
         if(index<0){
-            System.out.println("Index < 0");
+            throw new NotExistStorageException(uuid);
         }else {
             delete_implementation(index);
             storage[id - 1] = null;

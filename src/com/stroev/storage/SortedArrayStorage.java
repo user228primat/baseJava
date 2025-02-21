@@ -2,12 +2,14 @@ package com.stroev.storage;
 import com.stroev.model.Resume;
 import java.util.Arrays;
 
+// -(insertion point) - 1 = b
 public class SortedArrayStorage extends AbstractArrayStorage{
     protected void save_implementation(Resume r) {
-        // -(insertion point) - 1 = b
+        int lim = AbstractArrayStorage.Limit;
         int b = Arrays.binarySearch(storage,0,id,r);
-        System.arraycopy(storage, -b-1, storage, -b, id-b-1);
-        storage[-b-1]=r;
+        int InsP = -b-1;
+        System.arraycopy(storage, InsP, storage, (InsP+1)%lim, id-InsP);
+        storage[InsP]=r;
     }
     public void delete_implementation(int index) {
         if (index>=0){

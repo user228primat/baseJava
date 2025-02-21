@@ -7,13 +7,17 @@ import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import static org.junit.jupiter.api.Assertions.*;
 
-//size and getNotExist
-class AbstractArrayStorageTest {
-    ArrayStorage storage = new ArrayStorage();
-    String uuid1="uuid1";
-    String uuid2="uuid2";
-    String uuid3="uuid3";
-    String uuid4="uuid4";
+abstract class AbstractArrayStorageTest {
+    private AbstractArrayStorage storage;
+
+    private final String uuid1="uuid1";
+    private final String uuid2="uuid2";
+    private final String uuid3="uuid3";
+    private final String uuid4="uuid4";
+
+    public AbstractArrayStorageTest(AbstractArrayStorage storage) {
+        this.storage = storage;
+    }
 
     //Выполняется перед каждым тестом
     @BeforeEach
@@ -47,7 +51,7 @@ class AbstractArrayStorageTest {
         assertEquals(storage.getIndex(uuid1),0);
         assertEquals(storage.getIndex(uuid2),1);
         assertEquals(storage.getIndex(uuid3),2);
-        assertEquals(storage.getIndex(uuid4),4);
+        assertEquals(storage.getIndex(uuid4),3);
     }
 
     @Test
@@ -77,9 +81,36 @@ class AbstractArrayStorageTest {
     }
 
     @Test
+    void saveExist() {
+        assertThrows(StorageException.class, () -> storage.save(new Resume(uuid1)));
+    }
+
+    @Test
     void delete() {
         storage.delete(uuid3);
         assertEquals(3,storage.size());
         assertTrue(storage.getIndex(uuid3) < 0);
     }
+
+    @Test
+    void stackOverflow(){
+        //Все заполнено
+        //При такой реализации не нужно использовать try catch
+        for(int i=5;i<=AbstractArrayStorage.Limit;i++){
+            storage.save(new Resume());
+        }
+        System.out.println(storage.size());
+
+        assertThrows(StorageException.class, () -> storage.save(new Resume()));
+    }
+
+    //get +
+    //getNotExist +
+    //getAll +-
+    //size +
+    //clear +
+    //update +
+    //save +
+    //delete +
+    //stackOverflow +
 }

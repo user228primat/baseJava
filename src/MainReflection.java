@@ -1,18 +1,23 @@
 import com.stroev.model.Resume;
 
 import java.lang.reflect.Field;
+import java.lang.reflect.InvocationTargetException;
+import java.lang.reflect.Method;
 
 public class MainReflection {
-    public static void main(String[] args) throws IllegalAccessException {
+    public static void main(String[] args) throws IllegalAccessException, NoSuchMethodException, InvocationTargetException {
         //почему throws IllegalAccessException
         Resume r=new Resume("uuid228");
-        //System.out.println(r.getClass().getDeclaredFields()[0].getName());
-        //return: private final java.lang.String com.stroev.model.Resume.uuid
+
         Field declaredField = r.getClass().getDeclaredFields()[0]; //взяли поле класса
         declaredField.setAccessible(true);
         System.out.println(declaredField.get(r));
-        //System.out.println(declaredField.getName());
         declaredField.set(r,"ppc");
         System.out.println(r);
+
+        Method getC = r.getClass().getDeclaredMethod("toString");
+        String res = getC.invoke(r).toString();
+
+        System.out.println("Method return: "+res);
     }
 }
