@@ -6,18 +6,11 @@ import com.stroev.model.Resume;
 import java.util.Arrays;
 import java.util.Objects;
 
-public abstract class AbstractArrayStorage {
+public abstract class AbstractArrayStorage extends AbstractStorage{
     protected static final int Limit = 10000;
     protected Resume[] storage = new Resume[Limit];
     protected int id=0;
 
-    public Resume get(String uuid) {
-        int index = getIndex(uuid);
-        if (index !=-1) {
-            return storage[index];
-        }
-        throw new NotExistStorageException(uuid);
-    }
     public Resume[] getAll() {
         Resume[] all_res=new Resume[id];
         return Arrays.copyOfRange(storage,0,id);
@@ -29,35 +22,27 @@ public abstract class AbstractArrayStorage {
         Arrays.fill(storage,0,id,null);
         id=0;
     }
-    public void update(Resume r){
-        int index = getIndex(r.getUuid());
-        if(index>=0){
-            storage[index]=r;
-        }else{
-            throw new NotExistStorageException(r.getUuid());
-        }
+    protected Resume get_implements(String uuid){
+        return storage[getIndex(uuid)];
     }
-
-    public void save(Resume r){
-        // еще есть место в массиве и такого эллемента нет
-        if ( getIndex(r.getUuid()) >= 0 ){
-            throw new ExistStorageException(r.getUuid());
-        }else if (id==Limit){
+    protected void get_update(Resume r){
+        storage[getIndex(r.getUuid())]=r;
+    }
+    protected void get_save(Resume r){
+        if (id==Limit){
             throw new StorageException("Stack Overflow",r.getUuid());
         }else {
             save_implementation(r);
             id++;
         }
     }
-    public void delete(String uuid) {
-        int index=getIndex(uuid);
-        if(index<0){
-            throw new NotExistStorageException(uuid);
-        }else {
-            delete_implementation(index);
-            storage[id - 1] = null;
-            id--;
-        }
+    protected void get_delete(String uuid){
+        delete_implementation(getIndex(uuid));
+        storage[id - 1] = null;
+        id--;
+    }
+    protected boolean exist(String uuid){
+        return getIndex(uuid)>=0;
     }
 
     protected abstract int getIndex(String uuid);
