@@ -3,18 +3,21 @@ import com.stroev.exception.ExistStorageException;
 import com.stroev.exception.NotExistStorageException;
 import com.stroev.exception.StorageException;
 import com.stroev.model.Resume;
+
+import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Objects;
+import java.util.List;
 
 public abstract class AbstractArrayStorage extends AbstractStorage{
     protected static final int Limit = 10000;
     protected Resume[] storage = new Resume[Limit];
     protected int id=0;
 
-    public Resume[] getAll() {
-        Resume[] all_res=new Resume[id];
-        return Arrays.copyOfRange(storage,0,id);
+    public List<Resume> getAllCopy() {
+        return Arrays.asList(Arrays.copyOfRange(storage,0,id));
     }
+
     public int size() {
         return id;
     }

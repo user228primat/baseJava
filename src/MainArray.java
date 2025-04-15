@@ -11,7 +11,7 @@ import java.io.InputStreamReader;
  */
 public class MainArray {
     private final static ArrayStorage ARRAY_STORAGE = new ArrayStorage();
-
+    /*
     public static void main(String[] args) throws IOException {
         BufferedReader reader = new BufferedReader(new InputStreamReader(System.in));
         Resume r;
@@ -58,6 +58,7 @@ public class MainArray {
         }
     }
 
+    /*
     static void printAll() {
         Resume[] all = ARRAY_STORAGE.getAll();
         System.out.println("----------------------------");
@@ -70,4 +71,5 @@ public class MainArray {
         }
         System.out.println("----------------------------");
     }
+     */
 }

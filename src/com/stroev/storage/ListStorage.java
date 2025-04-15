@@ -3,23 +3,24 @@ import com.stroev.exception.ExistStorageException;
 import com.stroev.exception.NotExistStorageException;
 import com.stroev.exception.StorageException;
 import com.stroev.model.Resume;
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.Collection;
-import java.util.List;
+
+import java.util.*;
 
 public class ListStorage extends AbstractStorage{
     private List<Resume> storage = new ArrayList<>();
 
-    public Resume[] getAll() {
-        return storage.toArray(new Resume[size()]);
-    }
     public int size() {
         return storage.size();
     }
     public void clear() {
         storage.clear();
     }
+
+    @Override
+    protected List<Resume> getAllCopy() {
+        return new ArrayList<Resume>(storage);
+    }
+
     @Override
     protected Resume get_implements(String uuid) {
         return (Resume) storage.get(getIndex(uuid));

@@ -10,11 +10,11 @@ abstract public class AbstractArrayStorageTest extends AbstractStorageTest{
     @Test
     void stackOverflow(){
         for(int i=5;i<=AbstractArrayStorage.Limit;i++){
-            storage.save(new Resume());
+            storage.save(new Resume("Name"+i));
         }
         System.out.println(storage.size());
 
-        assertThrows(StorageException.class, () -> storage.save(new Resume()));
+        assertThrows(StorageException.class, () -> storage.save(new Resume("Overflow")));
     }
     public AbstractArrayStorageTest(Storage storage) {
         super(storage);

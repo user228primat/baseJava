@@ -1,9 +1,30 @@
 package com.stroev.storage;
 import com.stroev.model.Resume;
 import java.util.Arrays;
+import java.util.Comparator;
 
 // -(insertion point) - 1 = b
 public class SortedArrayStorage extends AbstractArrayStorage{
+
+    private final static Comparator<Resume> RESUME_COMPARATOR = (Resume r1, Resume r2) -> {
+        return r1.getUuid().compareTo(r2.getUuid());
+    };
+
+    /*
+    private final static Comparator<Resume> RESUME_COMPARATOR = new Comparator<Resume>(){
+        @Override
+        public int compare(Resume r1, Resume r2) {
+            return r1.getUuid().compareTo(r2.getUuid());
+        }
+    };
+
+    private static class ResumeComparator implements Comparator<Resume>{
+        @Override
+        public int compare(Resume r1, Resume r2) {
+            return r1.getUuid().compareTo(r2.getUuid());
+        }
+    }
+     */
     protected void save_implementation(Resume r) {
         int lim = AbstractArrayStorage.Limit;
         int b = Arrays.binarySearch(storage,0,id,r);
@@ -17,7 +38,7 @@ public class SortedArrayStorage extends AbstractArrayStorage{
         }
     }
     protected int getIndex(String uuid){
-        Resume key=new Resume(uuid); //то что нужно найти
-        return Arrays.binarySearch(storage,0,id,key); // где от-до что ищем
+        Resume key=new Resume(uuid,"dummy"); //то что нужно найти
+        return Arrays.binarySearch(storage,0,id,key,RESUME_COMPARATOR); // где от-до что ищем
     }
 }

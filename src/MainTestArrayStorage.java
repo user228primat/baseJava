@@ -8,6 +8,7 @@ import com.stroev.storage.SortedArrayStorage;
 public class MainTestArrayStorage {
     private static final SortedArrayStorage ARRAY_STORAGE = new SortedArrayStorage();
     //private static final ArrayStorage ARRAY_STORAGE = new ArrayStorage();
+    /*
     public static void main(String[] args) {
         final Resume r1 = new Resume("uuid6");
         final Resume r2 = new Resume("uuid2");
@@ -38,4 +39,5 @@ public class MainTestArrayStorage {
             System.out.println(r);
         }
     }
+     */
 }

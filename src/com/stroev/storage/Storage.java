@@ -2,11 +2,11 @@ package com.stroev.storage;
 
 import com.stroev.exception.StorageException;
 import com.stroev.model.Resume;
-
+import java.util.List;
 import java.util.Arrays;
 
 public interface Storage {
-    public Resume[] getAll();
+    public List<Resume> getAllSorted();
     public Resume get(String uuid);
     public int size();
     public void clear();
